@@ -34,9 +34,9 @@ files:
   - filter:
       - dist
       - dist-electron
-      - '!**/win-unpacked'
-      - '!**/win-ia32-unpacked'
-      - '!**/mac'
-      - '!**/mac-arm64'
-      - '!.cache'
+      - "!**/win-unpacked"
+      - "!**/win-ia32-unpacked"
+      - "!**/mac"
+      - "!**/mac-arm64"
+      - "!.cache"
 electronVersion: 36.2.1
