@@ -7,4 +7,4 @@ export NODE_ENV=production
 
 # --disable-vulkan: Fixes compatibility issues with Wayland/Nvidia
 # --ozone-platform-hint=auto: Properly handles Wayland vs X11
-exec /opt/pressplay-iris-v2-nearlink/pressplay-iris-v2-nearlink --disable-vulkan --ozone-platform-hint=auto "$@"
+exec /opt/pressplay-iris-v2-nearlink/hhk-hub-desktop --disable-vulkan --ozone-platform-hint=auto "$@"
