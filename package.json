@@ -1,0 +1,67 @@
+{
+  "name": "hhk-hub-desktop",
+  "author": "HHK",
+  "description": "IRIS v2 NearLink",
+  "private": true,
+  "version": "1.0.3",
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "package": "electron-builder --linux AppImage"
+  },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "electron-log": "^5.2.0",
+    "electron-updater": "^6.3.9",
+    "node-hid": "^3.1.2",
+    "pinia": "^2.2.1",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "vue": "^3.5.3",
+    "vue-i18n": "^10.0.6",
+    "vue-router": "^4.4.3"
+  },
+  "devDependencies": {
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8"
+  },
+    "build": {
+    "appId": "com.juxingshanshan.hhk.hub.desktop",
+    "productName": "IRIS_V2_NearLink",
+    "copyright": "Copyright © 2026 HHK",
+    "asar": true,
+    "directories": {
+      "output": "build-out"
+    },
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://juxing.tos-cn-guangzhou.volces.com/hhk/win/win10_win11/"
+      }
+    ],
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility"
+    },
+    "mac": {
+      "artifactName": "IRIS v2 NearLink.${ext}",
+      "target": [
+        "zip",
+        "dmg"
+      ]
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json",
+      "logo/**/*",
+      "src/**/*"
+    ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron"
+    ]
+  }
+}

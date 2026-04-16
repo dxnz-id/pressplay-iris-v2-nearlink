@@ -1,0 +1,42 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.juxingshanshan.hhk.hub.desktop
+productName: IRIS_V2_NearLink
+copyright: Copyright © 2026 HHK
+asar: true
+icon: public/icon/hhk
+win:
+  artifactName: IRIS v2 NearLink.exe
+  target:
+    - target: nsis
+      arch:
+        - x64
+  signingHashAlgorithms:
+    - sha256
+  signDlls: true
+  rfc3161TimeStampServer: http://timestamp.digicert.com
+  certificateSubjectName: SERIALNUMBER=91440300MACXYBR81P
+  certificatePassword: <stripped sensitive data>
+mac:
+  artifactName: IRIS v2 NearLink.${ext}
+  target:
+    - zip
+    - dmg
+publish:
+  - provider: generic
+    url: https://juxing.tos-cn-guangzhou.volces.com/hhk/win/win10_win11/
+nsis:
+  oneClick: false
+  perMachine: true
+  allowToChangeInstallationDirectory: true
+files:
+  - filter:
+      - dist
+      - dist-electron
+      - '!**/win-unpacked'
+      - '!**/win-ia32-unpacked'
+      - '!**/mac'
+      - '!**/mac-arm64'
+      - '!.cache'
+electronVersion: 36.2.1

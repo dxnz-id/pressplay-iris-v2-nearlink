@@ -1,0 +1,20 @@
+# Build outputs
+build-out/
+dist-native/
+*.AppImage
+
+# Dependencies
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Misc
+.cache/
+.electron-rebuild-hash
