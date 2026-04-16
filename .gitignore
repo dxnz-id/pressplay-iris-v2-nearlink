@@ -18,3 +18,7 @@ Thumbs.db
 # Misc
 .cache/
 .electron-rebuild-hash
+/aur-package/src/
+/aur-package/pressplay-iris-v2-nearlink/
+/aur-package/pkg/
+/aur-package/*.pkg.tar.zst
