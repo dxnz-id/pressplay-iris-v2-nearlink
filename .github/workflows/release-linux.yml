@@ -1,0 +1,112 @@
+name: IRIS Linux Release (AppImage + safe changelog + rollback)
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm install
+
+      # 🧠 Generate version v1.0.3.X
+      - name: Generate version
+        id: version
+        run: |
+          BASE=$(node -p "require('./package.json').version")
+          BUILD=$GITHUB_RUN_NUMBER
+          VERSION="v$BASE.$BUILD"
+
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Using version: $VERSION"
+
+      # 📜 Safe changelog (from last tag)
+      - name: Generate Changelog
+        id: changelog
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+          if [ -z "$PREV_TAG" ]; then
+            LOG=$(git log --pretty=format:"- %s" --max-count=30)
+          else
+            LOG=$(git log ${PREV_TAG}..HEAD --pretty=format:"- %s")
+          fi
+
+          if [ -z "$LOG" ]; then
+            LOG="- initial release"
+          fi
+
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$LOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # 🧱 Build Linux AppImage
+      - name: Build Linux (AppImage)
+        run: npm run package
+
+      # 📦 Create GitHub Release
+      - name: Create Release
+        id: release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: IRIS NearLink Linux ${{ steps.version.outputs.VERSION }}
+          body: |
+            ## 🐧 IRIS Linux AppImage Release
+
+            ### 🧾 Changelog
+            ${{ steps.changelog.outputs.CHANGELOG }}
+
+          files: build-out/*.AppImage
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 🏷️ Tag AFTER successful release
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git tag ${{ steps.version.outputs.VERSION }}
+          git push origin ${{ steps.version.outputs.VERSION }}
+
+  rollback:
+    needs: build
+    runs-on: ubuntu-latest
+    if: failure()
+
+    steps:
+      - name: Install GitHub CLI
+        run: sudo apt-get update && sudo apt-get install -y gh
+
+      - name: Delete Release + Tag (Rollback)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION="${{ needs.build.outputs.version }}"
+
+          echo "Rolling back $VERSION"
+
+          gh release delete "$VERSION" -y || true
+          git push --delete origin "$VERSION" || true
