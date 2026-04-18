@@ -37,7 +37,9 @@ jobs:
             pkg-config
 
       - name: Install deps
-        run: npm install
+        run: |
+          npm install
+          npm rebuild node-hid --build-from-source=false
 
       # 🧠 Generate version v1.0.3.X
       - name: Generate version
