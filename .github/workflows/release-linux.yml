@@ -25,7 +25,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 25
 
       - name: Install system dependencies
         run: |
@@ -39,7 +39,6 @@ jobs:
       - name: Install deps
         run: |
           npm install
-          npm rebuild node-hid --build-from-source=false
 
       # 🧠 Generate version v1.0.3.X
       - name: Generate version
