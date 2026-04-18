@@ -37,8 +37,9 @@ jobs:
             pkg-config
 
       - name: Install deps
-        run: |
-          npm install
+        env:
+          CXXFLAGS: "-std=c++17"
+        run: npm install
 
       # 🧠 Generate version v1.0.3.X
       - name: Generate version
@@ -73,6 +74,9 @@ jobs:
 
       # 🧱 Build Linux AppImage
       - name: Build Linux (AppImage)
+        env:
+          CXXFLAGS: "-std=c++17"
+          npm_config_CXXFLAGS: "-std=c++17"
         run: npm run package
 
       # 📦 Create GitHub Release
