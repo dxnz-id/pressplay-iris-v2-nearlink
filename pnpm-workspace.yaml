@@ -1,0 +1,5 @@
+allowBuilds:
+  electron: true
+  electron-winstaller: true
+  node-hid: true
+  vue-demi: true

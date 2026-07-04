@@ -141,4 +141,15 @@ Categories=Utility;
 
 ---
 
-_Ported with ❤️ for the Linux Community._
+## 📚 Documentation
+
+| Document | Description |
+| --- | --- |
+| [`docs/hid-protocol.md`](./docs/hid-protocol.md) | Full HID protocol mapping (reverse engineering) |
+| [`docs/architecture.md`](./docs/architecture.md) | Application architecture, process model, data flow |
+| [`docs/ipc-api.md`](./docs/ipc-api.md) | IPC channels between main & renderer |
+| [`docs/troubleshooting.md`](./docs/troubleshooting.md) | Troubleshooting HID, Wayland, AppImage, update |
+
+---
+
+_Ported for the Linux Community._
